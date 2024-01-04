@@ -20,7 +20,13 @@ function Star({ selected = false, rating, onSelect, onHover }) {
   );
 }
 
-export default function Rating({className, value = 0, onSelect, onHover, onMouseOut }) {
+export default function Rating({
+  className,
+  value = 0,
+  onSelect,
+  onHover,
+  onMouseOut,
+}) {
   return (
     <div className={className} onMouseOut={onMouseOut}>
       {RATINGS.map((rating) => (
