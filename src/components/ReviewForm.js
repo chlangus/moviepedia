@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./ReviewForm.css";
 import FileInput from "./FileInput";
 import RatingInput from "./RatingInput";
+import useAcync from "../hooks/useAsync";
+import useTranslate from "../hooks/useTranslate";
 
 const INITIAL_VALUES = {
   title: "",
@@ -17,9 +19,9 @@ function ReviewForm({
   onSubmit,
   onSubmitSuccess,
 }) {
+  const t = useTranslate();
   const [values, setValues] = useState(initialValues);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittingError, setSubmittingError] = useState(null);
+  const [isSubmitting, submittingError, onSubmitAsync] = useAcync(onSubmit);
 
   const handleChange = (name, value) => {
     setValues((prevValues) => ({
@@ -42,17 +44,8 @@ function ReviewForm({
     formData.append("content", values.content);
     formData.append("imgFile", values.imgFile);
 
-    let result;
-    try {
-      setSubmittingError(null);
-      setIsSubmitting(true);
-      result = await onSubmit(formData);
-    } catch (error) {
-      setSubmittingError(error);
-      return;
-    } finally {
-      setIsSubmitting(false);
-    }
+    const result = await onSubmitAsync(formData);
+    if(!result) return;
     const { review } = result;
     setValues(INITIAL_VALUES);
     onSubmitSuccess(review);
@@ -81,9 +74,9 @@ function ReviewForm({
         value={values.content}
         onChange={handleInputChange}
       ></textarea>
-      {onCancel && <button onClick={onCancel}>취소</button>}
+      {onCancel && <button onClick={onCancel}>{t('cancel button')}</button>}
       <button type="submit" disabled={isSubmitting}>
-        확인
+        {t('confirm button')}
       </button>
       {submittingError?.message && <div>{submittingError.message}</div>}
     </form>

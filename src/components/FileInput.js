@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function FileInput({ name, value, onChange, initialPreview }) {
-  const [preview, setPreview] = useState();
+  const [preview, setPreview] = useState(initialPreview);
   const inputRef = useRef();
 
   const handleChange = (e) => {

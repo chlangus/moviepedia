@@ -50,5 +50,6 @@ export async function deleteReview(id) {
     throw new Error("리뷰를 삭제하는데 실패했습니다.");
   }
   const body = await response.json();
+  console.log(body);
   return body;
 }
