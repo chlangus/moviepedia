@@ -41,7 +41,7 @@ export default function App() {
         setItems((prevItems) => [...prevItems, ...reviews]);
       }
       setOffset(options.offset + reviews.length);
-      
+
       setHasNext(paging.hasNext);
     },
     [getReviewsAsync]
@@ -96,5 +96,5 @@ export default function App() {
         {loadingError?.message && <span>{loadingError.message}</span>}
       </div>
     </LocaleProvider>
-  );sdf
+  );
 }
